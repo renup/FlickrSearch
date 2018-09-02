@@ -26,7 +26,9 @@ class SearchViewController: UIViewController {
     
     @IBOutlet weak var searchResultsTableView: UITableView!
     
+    @IBOutlet weak var searchbar: UISearchBar!
     let cellIdentifier = "photoCell"
+    let viewModel = PhotosViewModel.shared
     
     var photosArray: [String] = [] {
         didSet {
@@ -36,11 +38,16 @@ class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        PhotosViewModel.shared.requestPhotos { (photoURLStrings) in
+        searchbar.delegate = self
+        getPhotos(for: "Sonia")
+    }
+    
+    fileprivate func getPhotos(for search: String) {
+        viewModel.requestPhotos(for: search, completionHandler: { (photoURLStrings) in
             if let urlStrings = photoURLStrings {
                 self.photosArray = urlStrings
             }
-        }
+        })
     }
 }
 
@@ -55,4 +62,18 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         cell.configure(imageStr: photosArray[indexPath.row])
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: false)
+    }
+}
+
+extension SearchViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        if let searchStr = searchBar.text {
+            getPhotos(for: searchStr)
+        }
+    }
+    
 }

@@ -14,9 +14,9 @@ class PhotosViewModel {
     let apiManager = APIManager.shared
     static let shared = PhotosViewModel()
     
-    func requestPhotos(completionHandler: @escaping((_ imageURLs: [String]?) -> Void)) {
+    func requestPhotos(for searchString: String, completionHandler: @escaping((_ imageURLs: [String]?) -> Void)) {
         
-        apiManager.fetchPhotos(forSearch: "sonia") { (error, photoURLStrings) in
+        apiManager.fetchPhotos(forSearch: searchString) { (error, photoURLStrings) in
             if error == nil {
                 guard let urlStrings = photoURLStrings else {
                     assertionFailure("photo url strings is nil here")
