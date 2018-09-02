@@ -49,13 +49,17 @@ class PhotosViewModel {
     
     //Gets cached images if available or downloads the image
     func getImage(urlString: String, completionHandler: @escaping ((_ image: UIImage?) -> Void)) {
-        if let cachedImage = apiManager.cachedImage(for: urlString) {
+        if let cachedImage = getCachedImage(for: urlString) {
             completionHandler(cachedImage)
         }
         
         apiManager.fetchImageData(imageURLString: urlString) { (image) in
             completionHandler(image)
         }
+    }
+    
+    private func getCachedImage(for imageString: String) -> UIImage? {
+        return apiManager.cachedImage(for: imageString)
     }
     
     //Processes the Photos object and extracts the imageURLStrings

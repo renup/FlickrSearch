@@ -85,8 +85,8 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: false)
         viewModel.getImage(urlString: photosArray[indexPath.row], completionHandler: { (image) in
             self.selectedImage = image
+            self.performSegue(withIdentifier: "searchToPhotoVC", sender: nil)
         })
-        self.performSegue(withIdentifier: "searchToPhotoVC", sender: nil)
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
