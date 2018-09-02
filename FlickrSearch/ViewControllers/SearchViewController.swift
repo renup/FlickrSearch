@@ -16,7 +16,7 @@ class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         apiManager.fetchPhotos(forSearch: "sonia") { (error, photos) in
-            print("inside the response block")
+            print("inside the response block photos = \(photos)")
         }
     }
 }

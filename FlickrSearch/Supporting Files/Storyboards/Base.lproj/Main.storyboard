@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="uKA-zV-7EO">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -10,10 +10,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Search View Controller-->
         <scene sceneID="Gd4-DK-55N">
             <objects>
-                <viewController id="xD8-7C-y4r" sceneMemberID="viewController">
+                <viewController id="xD8-7C-y4r" customClass="SearchViewController" customModule="FlickrSearch" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="XUF-8E-GsY">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -49,6 +49,9 @@
                         <viewLayoutGuide key="safeArea" id="hBl-Te-hbe"/>
                     </view>
                     <navigationItem key="navigationItem" id="NOp-bj-MId"/>
+                    <connections>
+                        <segue destination="6fq-C0-Y1m" kind="show" identifier="searchToPhotoVC" id="8sd-1U-6GM"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="egE-ua-jxT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -11,7 +11,7 @@ import Alamofire
 
 class APIManager {
     static let shared = APIManager()
-    typealias FlickrResponse = (Error?, [Photo]?) -> Void
+    typealias FlickrResponse = (Error?, [Photos]?) -> Void
 
     struct Constants {
         static let apiKey = "3785458368e09e236c7943827d308315"
@@ -20,12 +20,21 @@ class APIManager {
     func fetchPhotos(forSearch keyword: String, onCompletion: @escaping FlickrResponse) {
         let urlString = constructRequestURL(for: keyword)
         
-        Alamofire.request(urlString).responseJSON {response in
-            
-            if let data = response.data, let utf8Text = String(data: data, encoding: .utf8) {
-                print("Data: \(utf8Text)") // original server data as UTF8 string
-            }
+        Alamofire.request(urlString).responseJSON { response in
+//            var photosArray = [Photo]()
+            if let jsonData = response.data {
+                do {
+                    let decoder = JSONDecoder()
+                    decoder.keyDecodingStrategy = .convertFromSnakeCase
 
+                    let dataArray = try decoder.decode(Photos.self, from: jsonData)
+                    print("Data array = \(dataArray)")
+
+               //     onCompletion(nil, photosArray)
+                } catch {
+                    print("Error while decoding photosResponse = \(error)")
+                }
+            }
         }
     }
     
