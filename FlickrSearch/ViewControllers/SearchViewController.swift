@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Alamofire
 
 class PhotoCell: UITableViewCell {
     
@@ -16,11 +17,21 @@ class PhotoCell: UITableViewCell {
     
     func configure(imageStr: String, rowNum: Int) {
         cellNumberLabel.text = rowNum.description
-        PhotosViewModel.shared.getImage(urlString: imageStr) { (photo) in
-            if let pic = photo {
-                self.photoImageView.image = pic
-            }
-        }
+        photoImageView.image = nil
+            photoImageView.af_setImage(
+                withURL: URL(string: imageStr)!,
+                placeholderImage: UIImage(named: "placeholder"),
+                filter: nil,
+                imageTransition: .crossDissolve(0.2)
+        )
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        //cancel inflight images and reset image
+        photoImageView.af_cancelImageRequest()
+        photoImageView.layer.removeAllAnimations()
+        photoImageView.image = nil
     }
 }
 
@@ -44,9 +55,11 @@ class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         searchbar.delegate = self
+        //Rose is a default word to search with.
         getPhotos(for: "Rose", batch: 1)
     }
     
+    //VC talks to viewModel layer for photos
     fileprivate func getPhotos(for search: String, batch: Int) {
         viewModel.requestPhotos(for: search, page: batch,  completionHandler: { (photoURLStrings) in
             if let urlStrings = photoURLStrings {
@@ -84,6 +97,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        //Scope of this project at this time is limited so am force unwrapping the segue.destination as PhotoVC. Typically, we check for segue.identifier, and based on that we get relative VC's here (in guard statements) and set their properties before segueing.
         let photosVC = segue.destination as! PhotoViewController
         photosVC.displayImage = selectedImage!
     }

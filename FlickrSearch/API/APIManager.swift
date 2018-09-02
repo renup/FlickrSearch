@@ -10,6 +10,7 @@ import Foundation
 import Alamofire
 import AlamofireImage
 
+//This is a Network Helper class. 
 class APIManager {
     static let shared = APIManager()
 
@@ -41,6 +42,7 @@ class APIManager {
         }
     }
     
+    //constructs the Request URL.
     private func constructRequestURL(for search: String, page: Int) -> String {
         return "https://api.flickr.com/services/rest/?method=flickr.photos.search&page=\(page)&api_key=\(Constants.apiKey)&text=\(search)&extras=url_s&format=json&nojsoncallback=1"
     }
