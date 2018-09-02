@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-import Alamofire
+import Alamofire //Could avoid importing Network lib in VC/view class by having a configurator for cell which would communicate with viewModel layer to set its placeholder image and actual image
 
 class PhotoCell: UITableViewCell {
     
