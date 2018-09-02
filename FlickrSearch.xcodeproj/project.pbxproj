@@ -19,6 +19,7 @@
 		D747A659213B4766000E52D8 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D747A658213B4766000E52D8 /* SearchViewController.swift */; };
 		D747A65B213B47B0000E52D8 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D747A65A213B47B0000E52D8 /* PhotoViewController.swift */; };
 		D747A65E213B4938000E52D8 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D747A65D213B4938000E52D8 /* Photo.swift */; };
+		D747A660213B939F000E52D8 /* PhotosViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D747A65F213B939F000E52D8 /* PhotosViewModel.swift */; };
 		E2CE93EAA0B38E298E105143 /* Pods_FlickrSearch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 415F9DFFAB6D775CDEBB74FB /* Pods_FlickrSearch.framework */; };
 /* End PBXBuildFile section */
 
@@ -65,6 +66,7 @@
 		D747A658213B4766000E52D8 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		D747A65A213B47B0000E52D8 /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
 		D747A65D213B4938000E52D8 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
+		D747A65F213B939F000E52D8 /* PhotosViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -218,6 +220,7 @@
 			isa = PBXGroup;
 			children = (
 				D747A65D213B4938000E52D8 /* Photo.swift */,
+				D747A65F213B939F000E52D8 /* PhotosViewModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -437,6 +440,7 @@
 				D747A657213B4254000E52D8 /* APIManager.swift in Sources */,
 				D747A65B213B47B0000E52D8 /* PhotoViewController.swift in Sources */,
 				D747A659213B4766000E52D8 /* SearchViewController.swift in Sources */,
+				D747A660213B939F000E52D8 /* PhotosViewModel.swift in Sources */,
 				D747A5E6213B22F8000E52D8 /* AppDelegate.swift in Sources */,
 				D747A65E213B4938000E52D8 /* Photo.swift in Sources */,
 			);

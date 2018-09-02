@@ -9,15 +9,6 @@
 import Foundation
 
 struct Photo: Codable {
-    var id: String?
-    var owner: String?
-    var secret: String?
-    var server: String?
-    var farm: Int?
-    var ispublic: Int?
-    var isfriend: Int?
-    var isfamily: Int?
-    var title: String?
     var url_s: String?
     var height_s: String?
     var width_s: String?
@@ -29,10 +20,10 @@ struct Photos: Codable {
 }
 
 struct PhotosMetaData: Codable {
-    let page: Int
-    let pages: Int
-    let perpage: Int
-    let total: String
-    let photo: [Photo]
+    var page: Int?
+    var pages: Int?
+    var perpage: Int?
+    var total: String?
+    var photo: [Photo]?
 }
 
