@@ -22,8 +22,8 @@ class APIManager {
         preferredMemoryUsageAfterPurge: 60_000_000
     )
     
-    func fetchPhotos(forSearch keyword: String, onCompletion: @escaping (Error?, [String]?) -> Void) {
-        let urlString = constructRequestURL(for: keyword)
+    func fetchPhotos(forSearch keyword: String, batch: Int, onCompletion: @escaping (Error?, Photos?) -> Void) {
+        let urlString = constructRequestURL(for: keyword, page: batch)
         
         Alamofire.request(urlString).responseJSON { response in
             if let jsonData = response.data, let str = String(data: jsonData, encoding: .utf8)?.replacingOccurrences(of: "\\/", with: "/") {
@@ -32,9 +32,8 @@ class APIManager {
                         assertionFailure("Photos response String conversion to data failed")
                         return
                     }
-                    let dataArray = try JSONDecoder().decode(Photos.self, from: data)
-                    guard let urlStrings = self.getPhotoURLStrings(from: dataArray) else { return }
-                    onCompletion(nil, urlStrings)
+                    let photos = try JSONDecoder().decode(Photos.self, from: data)
+                    onCompletion(nil, photos)
                 } catch {
                     print("Error while decoding photosResponse = \(error)")
                 }
@@ -42,20 +41,8 @@ class APIManager {
         }
     }
     
-    private func constructRequestURL(for search: String) -> String {
-        return "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=\(Constants.apiKey)&text=\(search)&extras=url_s&format=json&nojsoncallback=1"
-    }
-    
-    private func getPhotoURLStrings(from photoObject: Photos) -> [String]? {
-        guard let photoMetaData = photoObject.photos else { return nil }
-        guard let photoArray = photoMetaData.photo else { return nil }
-        var urlStrings = [String]()
-        for item in photoArray {
-            if let urlStr = item.url_s {
-               urlStrings.append(urlStr)
-            }
-        }
-        return urlStrings
+    private func constructRequestURL(for search: String, page: Int) -> String {
+        return "https://api.flickr.com/services/rest/?method=flickr.photos.search&page=\(page)&api_key=\(Constants.apiKey)&text=\(search)&extras=url_s&format=json&nojsoncallback=1"
     }
   
 }

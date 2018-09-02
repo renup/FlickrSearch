@@ -12,8 +12,10 @@ import UIKit
 class PhotoCell: UITableViewCell {
     
     @IBOutlet weak var photoImageView: UIImageView!
+    @IBOutlet weak var cellNumberLabel: UILabel!
     
-    func configure(imageStr: String) {
+    func configure(imageStr: String, rowNum: Int) {
+        cellNumberLabel.text = rowNum.description
         PhotosViewModel.shared.getImage(urlString: imageStr) { (photo) in
             if let pic = photo {
                 self.photoImageView.image = pic
@@ -32,20 +34,22 @@ class SearchViewController: UIViewController {
     
     var photosArray: [String] = [] {
         didSet {
-            searchResultsTableView.reloadData()
+            if photosArray.count > 1 {
+                searchResultsTableView.reloadData()
+            }
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         searchbar.delegate = self
-        getPhotos(for: "Sonia")
+        getPhotos(for: "Sonia", batch: 1)
     }
     
-    fileprivate func getPhotos(for search: String) {
-        viewModel.requestPhotos(for: search, completionHandler: { (photoURLStrings) in
+    fileprivate func getPhotos(for search: String, batch: Int) {
+        viewModel.requestPhotos(for: search, page: batch,  completionHandler: { (photoURLStrings) in
             if let urlStrings = photoURLStrings {
-                self.photosArray = urlStrings
+                self.photosArray += urlStrings
             }
         })
     }
@@ -59,12 +63,19 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! PhotoCell
-        cell.configure(imageStr: photosArray[indexPath.row])
+        cell.configure(imageStr: photosArray[indexPath.row], rowNum: indexPath.row)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        //If reached to the end of the search results, request next batch and display that.
+        if indexPath.row == photosArray.count - 1 {
+            getPhotos(for: "", batch: viewModel.batch + 1)
+        }
     }
 }
 
@@ -72,7 +83,9 @@ extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         if let searchStr = searchBar.text {
-            getPhotos(for: searchStr)
+            //resetting photosArray here since this is a new search
+            photosArray = []
+            getPhotos(for: searchStr, batch: 1)
         }
     }
     
